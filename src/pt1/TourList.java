@@ -1,3 +1,5 @@
+package pt1;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -8,7 +10,7 @@ public class TourList {
     private ArrayList<Tour> tourList;
 
     /**
-     * Creates a new TourList given a file of Tour ID's.
+     * Creates a new pt1.TourList given a file of pt1.Tour ID's.
      * Reads ID's from file then finds each corresponding tour file in tours directory and constructs new tour from it.
      * Adds tour to tourList. Adds ID to tourIDlist (might want to make that a hashmap?).
      * @param toursFile file of tour IDs
@@ -48,5 +50,13 @@ public class TourList {
     @Override
     public String toString(){
         return null;
+    }
+
+    /**
+     * Adds a tour to the tourList
+     * @param tour tour to add to list
+     */
+    public void add(Tour tour){
+        tourList.add(tour);
     }
 }
