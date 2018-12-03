@@ -5,6 +5,17 @@ import java.util.Date;
 
 public class Tour {
 
+    /*
+    Tour File Format:
+    ID NUM
+    NAME
+    LOCATION
+    DATE
+    DESCRIPTION
+    COST
+    ITINERARY
+    IS CANCELLED
+     */
     private File infoFile;
     private String name;
     private double cost;
