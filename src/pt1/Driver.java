@@ -1,5 +1,7 @@
 package pt1;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Driver 
@@ -105,8 +107,19 @@ public class Driver
 	{
 		Scanner in = new Scanner(System.in); 
 		Driver menu = new Driver();
-		AccountList accounts = new AccountList();
-		//TourList tours = new TourList();
+		System.out.println("Input project directory path: ");
+		String dirPath = "";
+		if (in.hasNext()) {
+            dirPath += in.next();
+        }
+        else{
+            System.out.println("Not a valid directory path.");
+		try{
+            AccountList accounts = new AccountList();
+            TourList tours = new TourList(dirPath+"\\Tours");
+        }catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 		int start = 0;
 		int input = 0;
 		String id = "";

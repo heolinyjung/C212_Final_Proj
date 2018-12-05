@@ -9,7 +9,7 @@ public class TourList {
 
     private final String directoryString;
     private File toursDirectory;
-    private File toursIDFile;
+    private ArrayList<Tour> ;
     private ArrayList<Integer> tourIDlist = new ArrayList<>();
 
     /**
@@ -17,25 +17,13 @@ public class TourList {
      * Reads ID's from file then adds each one to the ArrayList.
      * Instantiates a toursDirectory file and a toursIDFile file as instance variables
      * @param _toursDirectory Directory path for tours folder
-     * @param _toursIDFile File path for tours ID file
      */
-    public TourList(String _toursDirectory, String _toursIDFile) {
+    public TourList(String _toursDirectory) {
         directoryString = _toursDirectory;
         File directory = new File(_toursDirectory);
-        File ids = new File(_toursIDFile);
-        try{
-            this.toursIDFile = ids;
-            Scanner inIDs = new Scanner(this.toursIDFile);
-            while(inIDs.hasNextLine()){
-                String id = inIDs.nextLine();
-                id.trim();
-                int idNum = Integer.parseInt(id);
-                this.tourIDlist.add(idNum);
-            }
-            inIDs.close();
-            toursDirectory = directory;
-        }catch(FileNotFoundException e){
-            System.out.println("ID file not found");
+        toursDirectory = directory;
+        for(File tourFile : directory.listFiles()){
+
         }
     }
 
@@ -110,12 +98,13 @@ public class TourList {
             writer.println(tour.getDate());
             writer.println(tour.isCancelled());
             writer.close();
-            writeIDs();
+            //writeIDs();
         }catch(FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /*
     public void writeIDs(){
         try{
             PrintWriter writer = new PrintWriter(toursIDFile);
@@ -134,11 +123,12 @@ public class TourList {
             System.out.println(e.getMessage());
         }
     }
+    */
 
     //test
     public static void main(String[] args){
         //When testing make sure to input your own file paths
-        TourList tourlist = new TourList("D:\\School FIles\\C212_java\\C212_Final_Proj\\Tours","D:\\School FIles\\C212_java\\C212_Final_Proj\\tourIDs.txt");
+        TourList tourlist = new TourList("D:\\School FIles\\C212_java\\C212_Final_Proj\\Tours");
         System.out.println(tourlist.directoryString);
         System.out.println("Please enter tour info");
         Tour newTour = new Tour("Hiking in Siberia",2000.00,"The Hiking in Siberia tour is for only the most experienced backpackers and outdoorsmen. Come venture through settings rarely seen by the human eye as you are enveloped by the Siberian tundra.","Yakutsk, Russia","itinerary","20190815");
