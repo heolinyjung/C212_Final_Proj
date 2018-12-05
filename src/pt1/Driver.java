@@ -9,12 +9,13 @@ public class Driver
 	 */
 	public int startup()
 	{
+		int input = 0;
 		Scanner in = new Scanner(System.in);
 		System.out.println("What would you like to do?"
-				+ "\n1. Login"
+				+ "\n1. Exit"
 				+ "\n2. Create a new Account"
-				+ "\n3. Exit");
-		int input = in.nextInt();
+				+ "\n3. Login");
+		input = in.nextInt();
 		
 		return input;
 	}
@@ -25,23 +26,24 @@ public class Driver
 	 */
 	public int accountMenu(Account user)
 	{
+		int input = 0;
 		Scanner in = new Scanner(System.in);
 		if(!user.isAdmin())
 		{
 			System.out.println("What would you like to do?"
-					+ "\n1. View Account Info"
-					+ "\n2. View/Edit Reserved Tours List"
-					+ "\n3. Exit");
-			int input = in.nextInt();
+					+ "\n1. Exit"
+					+ "\n2. View Account Info"
+					+ "\n3. View/Edit Reserved Tours List");
+			input = in.nextInt();
 		}
 		else
 		{
 			System.out.println("What would you like to do?"
-					+ "\n1. View Account Info"
-					+ "\n2. View/Edit Reserved Tours List"
-					+ "\n3. View Account List"
-					+ "\n4. Exit");
-			int input = in.nextInt();
+					+ "\n1. Exit"
+					+ "\n2. View Account Info"
+					+ "\n3. View/Edit Reserved Tours List"
+					+ "\n4. View Account List");
+			input = in.nextInt();
 		}
 		
 		return input;
@@ -53,7 +55,16 @@ public class Driver
 	 */
 	public int reservedTours(Account user)
 	{
-		//Display Options
+		int input = 0;
+		Scanner in = new Scanner(System.in);
+		System.out.println("What would you like to do?"
+				+ "\n1. Exit"
+				+ "\n2. Create a new Account"
+				+ "\n3. Login"
+				+ "\n4. Go Back");
+		input = in.nextInt();
+		
+		return input;
 	}
 	
 	/*
@@ -61,7 +72,16 @@ public class Driver
 	 */
 	public int TourList(Account user)
 	{
-		//Display Options
+		int input = 0;
+		Scanner in = new Scanner(System.in);
+		System.out.println("What would you like to do?"
+				+ "\n1. Exit"
+				+ "\n2. Create a new Account"
+				+ "\n3. Login"
+				+ "\n4. Go Back");
+		input = in.nextInt();
+		
+		return input;
 	}
 	
 	/*
@@ -69,45 +89,82 @@ public class Driver
 	 */
 	public int cart(Account user)
 	{
-		//Display Options
+		int input = 0;
+		Scanner in = new Scanner(System.in);
+		System.out.println("What would you like to do?"
+				+ "\n1. Exit"
+				+ "\n2. Create a new Account"
+				+ "\n3. Login"
+				+ "\n4. Go Back");
+		input = in.nextInt();
+		
+		return input;
 	}
 
 	public static void main(String[] args) 
 	{
 		Scanner in = new Scanner(System.in); 
 		Driver menu = new Driver();
-		AccountList list = new AccountList();
-		int start = menu.startup();
+		AccountList accounts = new AccountList();
+		//TourList tours = new TourList();
+		int start = 0;
+		int input = 0;
+		String id = "";
+		String username = "";
+		String password = "";
+		
 		
 		/*
 		 * The program will use methods to call the menus and each menu will return a value
 		 * to the main where it will be read and then call the appropriate action
 		 */
-		if(start == 1)
+		while(input != 1 )
 		{
-			System.out.print("Username: ");
-			String username = in.next();
-			System.out.print("Password: ");
-			String password = in.next();
-			int num = list.login(username, password);
-			String id = Integer.toString(num);
-			Account user = new Account(username, id);
-		}
-		else if(start == 2)
-		{
-			System.out.print("New Username: ");
-			String username = in.next();
-			System.out.print("New Password: ");
-			String password = in.next();
-			Account user = list.create(username, password)
+			while(start != 1)
+			{
+				start = menu.startup();
+				
+				if(start == 2)
+				{
+					System.out.print("Username: ");
+					username = in.next();
+					System.out.print("\nPassword: ");
+					password = in.next();
+					int num = accounts.login(username, password);
+					id = Integer.toString(num);
+					
+				}
+				else if(start > 3 || start < 0)
+				{
+					System.out.println("Not a valid input");
+				}
+				else
+				{
+					int check = 0;
+					while(check == -1)
+					{
+					System.out.print("New Username: ");
+					username = in.next();
+					System.out.print("\nNew Password: ");
+					password = in.next();
+					check = accounts.check(username, password);
+					}
+					
+				}
+				
+			}
+			
+			if(start == 2)
+				Account user = accounts.create(username, password);
+			else if(start == 3)
+				Account user = new Account(username, id);
 		}
 		
-		while(start != 3)
-		{
-			/*
-			 * Code that calls all other menus to get input values from the user to 
-			 * navigate the menus and preform tasks
-			 */
+			
+				/*
+				 * Code that calls all other menus to get input values from the user to 
+				 * navigate the menus and preform tasks
+				 */
 		}
 		
 		
