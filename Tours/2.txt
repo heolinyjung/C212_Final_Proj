@@ -1,0 +1,8 @@
+2
+Milan
+2500.00
+Something describing this tour
+Milan, Italy
+something else
+10/25/2019
+false

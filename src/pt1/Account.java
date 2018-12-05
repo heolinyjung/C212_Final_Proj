@@ -11,13 +11,14 @@ public class Account
 	private String id; //The unique id number for the account, mainly for Admin purposes
 	private String payment; //The card number for the account to pay for tours
 	private TourList reserved; //The list of tour the account has already payed for
-	private TourList cart; //The list of tours that the account has yet to pay for, the cart will reset when the program exits
+	private Cart cart; //The list of tours that the account has yet to pay for, the cart will reset when the program exits
 	private boolean admin; //A T or F value to determine if the given account is an admin or not
 	private String fullName; //The users real name format: first last
 	
 	/*
 	 * Constructor used for existing accounts
 	 */
+	/*
 	public Account(String username, String number)
 	{
 		accountInfo = new File(number + username);
@@ -34,10 +35,11 @@ public class Account
 		}
 		cart = new TourList();
 	}
-	
+	*/
 	/*
 	 * Constructor used to when a new account is created
 	 */
+	/*
 	public Account(String username, String password, String number)
 	{
 		Scanner in = new Scanner(System.in);
@@ -53,7 +55,7 @@ public class Account
 		reserved = new TourList();
 		cart = new TourList();
 	}
-	
+	*/
 	/*
 	 * this mehtod will be called when the program terminates
 	 * all updated data will thus be saved on to the appropriate file
@@ -80,7 +82,7 @@ public class Account
 	 */
 	public void addToCart(Tour tour)
 	{
-		cart.add(tour);
+		cart.addToCart(tour);
 	}
 
 	/*

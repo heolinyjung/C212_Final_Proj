@@ -5,23 +5,26 @@ import java.util.*;
 
 public class AccountList 
 {
+	/*
 	private File signin; 	//Format: ID, Username, Password
 							//each new line holds information for one persons account
 	private Directory accounts;		//A variable that has access to all of the files in the accounts directory
 	private ArrayList<String> list;	//A list of all the File names in the accounts directory
-	
+	*/
 	public AccountList()
 	{
-		signin = new File("accounts");
+		/*
+	    signin = new File("accounts");
 		list = new ArrayList<String>();
 		
 		Scanner in = new Scanner(signin);
-		while(/*Directory has another file in it*/)
+		while()
 		{
-			list.add(/*New file name*/);
+			list.add();
 		}
+		*/
 	}
-	
+
 	/*
 	 * The login function that will confirm the given password and username
 	 * if the username and password are not found it will return a -1
@@ -29,6 +32,7 @@ public class AccountList
 	 */
 	public int login(String username, String password)
 	{
+	    /*
 		int id = -1;
 		Scanner in = new Scanner(signin);
 		while(in.hasNextLine())
@@ -44,7 +48,9 @@ public class AccountList
 				}
 			}
 		}
-		return id;
+		*/
+		return 0;
+
 	}
 
 	/*
@@ -53,16 +59,18 @@ public class AccountList
 	 */
 	public Account create(String username,String password)
 	{
-		int number = 0;
-		for(int x = 0; x < /*(amount of files in the directory)*/; x ++)
-			number++;
+
+		//int number = 0;
+		//for(int x = 0; x < /*(amount of files in the directory)*/; x ++)
+		//	number++;
 		/*
 		 * Add a line to the file signin with the new username, password, and id
 		 * Also create a new Account Object with id = number, and of course using the given username and password
 		 */
 		
-		Account create = new Account(username, password, number);
-		return create;
+		//Account create = new Account(username, password, number);
+
+		return null;
 	}
 	
 	/*
@@ -71,7 +79,7 @@ public class AccountList
 	 */
 	public ArrayList<String> list()
 	{
-		return list;
+		return null;
 	}
 	
 	/*
@@ -80,6 +88,7 @@ public class AccountList
 	 */
 	public Account select(int n)
 	{
+	    /*
 		Scanner in = new Scanner(signin);
 		String account = "";
 		for(int x = 0; x < list.size(); x++)
@@ -89,15 +98,16 @@ public class AccountList
 				account = list.get(x);
 			}
 		}
-		
-		for(int x = 0; x < /*(amount of files in the directory)*/; x ++)
+		*/
+		//for(int x = 0; x < /*(amount of files in the directory)*/; x ++)
 		{
-			if(/*Current File in Directory*/ == account)
+		//	if(/*Current File in Directory*/ == account)
 			{
-				String num = in.nextInt();
-				String name = in.next();
-				return Account(name, num);
+		//		String num = in.nextInt();
+		//		String name = in.next();
+		//		return Account(name, num);
 			}
 		}
+		return null;
 	}
 }

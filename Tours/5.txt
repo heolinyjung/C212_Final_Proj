@@ -1,0 +1,8 @@
+5
+Brussels
+3020.00
+Something describing this tour
+Brussels, Belgium
+something else
+6/10/2019
+false

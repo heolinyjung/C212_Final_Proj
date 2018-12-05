@@ -26,13 +26,14 @@ public class Driver
 	public int accountMenu(Account user)
 	{
 		Scanner in = new Scanner(System.in);
+		int input;
 		if(!user.isAdmin())
 		{
 			System.out.println("What would you like to do?"
 					+ "\n1. View Account Info"
 					+ "\n2. View/Edit Reserved Tours List"
 					+ "\n3. Exit");
-			int input = in.nextInt();
+			input = in.nextInt();
 		}
 		else
 		{
@@ -41,7 +42,7 @@ public class Driver
 					+ "\n2. View/Edit Reserved Tours List"
 					+ "\n3. View Account List"
 					+ "\n4. Exit");
-			int input = in.nextInt();
+			input = in.nextInt();
 		}
 		
 		return input;
@@ -54,6 +55,7 @@ public class Driver
 	public int reservedTours(Account user)
 	{
 		//Display Options
+        return 0;
 	}
 	
 	/*
@@ -62,6 +64,7 @@ public class Driver
 	public int TourList(Account user)
 	{
 		//Display Options
+        return 0;
 	}
 	
 	/*
@@ -70,6 +73,7 @@ public class Driver
 	public int cart(Account user)
 	{
 		//Display Options
+        return 0;
 	}
 
 	public static void main(String[] args) 
@@ -91,7 +95,7 @@ public class Driver
 			String password = in.next();
 			int num = list.login(username, password);
 			String id = Integer.toString(num);
-			Account user = new Account(username, id);
+			//Account user = new Account(username, id);
 		}
 		else if(start == 2)
 		{
@@ -99,7 +103,7 @@ public class Driver
 			String username = in.next();
 			System.out.print("New Password: ");
 			String password = in.next();
-			Account user = list.create(username, password)
+			Account user = list.create(username, password);
 		}
 		
 		while(start != 3)

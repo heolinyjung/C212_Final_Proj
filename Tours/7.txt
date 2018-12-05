@@ -1,0 +1,8 @@
+7
+Glacier
+1300.00
+Something describing this tour
+Glacier, Alaska
+something else
+5/04/2019
+false
