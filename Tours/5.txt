@@ -4,5 +4,5 @@ Brussels
 Something describing this tour
 Brussels, Belgium
 something else
-6/10/2019
+20190610
 false

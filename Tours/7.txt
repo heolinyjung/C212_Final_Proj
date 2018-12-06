@@ -4,5 +4,5 @@ Glacier
 Something describing this tour
 Glacier, Alaska
 something else
-5/04/2019
+20190504
 false

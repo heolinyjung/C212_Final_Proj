@@ -83,7 +83,7 @@ public class Tour {
         return name;
     }
 
-    public void setName(String name, Account accnt) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -91,7 +91,7 @@ public class Tour {
         return cost;
     }
 
-    public void setCost(double cost, Account accnt) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -99,7 +99,7 @@ public class Tour {
         return description;
     }
 
-    public void setDescription(String description, Account accnt) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -107,7 +107,7 @@ public class Tour {
         return location;
     }
 
-    public void setLocation(String location, Account accnt) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -115,7 +115,7 @@ public class Tour {
         return itinerary;
     }
 
-    public void setItinerary(String itinerary, Account accnt) {
+    public void setItinerary(String itinerary) {
         this.itinerary = itinerary;
     }
 
@@ -131,7 +131,7 @@ public class Tour {
         return date.substring(4,6)+"/"+date.substring(6)+"/"+date.substring(0,4);
     }
 
-    public void setDate(String date, Account accnt) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -147,7 +147,7 @@ public class Tour {
         return isCancelled;
     }
 
-    public void setCancelled(boolean cancelled, Account accnt) {
+    public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
     }
 
@@ -177,5 +177,23 @@ public class Tour {
         out+="$"+String.format("%.2f",cost)+"\n";
         out+="Tour number "+idNumber+"\n";
         return out;
+    }
+
+    /**
+     * Returns equals if ID number match.
+     * Assumes no two tours have same IDs.
+     * @param other tour object
+     * @return is equal
+     */
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof Tour){
+            Tour otherTour = (Tour)other;
+            if(idNumber==otherTour.getIdNumber()){
+                return true;
+            }else
+            return false;
+        }else
+        return false;
     }
 }

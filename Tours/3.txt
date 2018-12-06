@@ -4,5 +4,5 @@ Japan
 Something describing this tour
 Tokyo, Japan
 something else
-5/15/2019
+20190515
 false

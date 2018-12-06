@@ -4,5 +4,5 @@ Hawaii
 Something describing this tour
 Honalulu, Hawaii
 something else
-2/10/2019
+20190210
 false

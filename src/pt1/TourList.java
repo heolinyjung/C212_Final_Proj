@@ -9,7 +9,7 @@ public class TourList {
 
     private final String directoryString;
     private File toursDirectory;
-    private ArrayList<Tour> ;
+    private ArrayList<Tour> tourList = new ArrayList<>();
     private ArrayList<Integer> tourIDlist = new ArrayList<>();
 
     /**
@@ -23,7 +23,9 @@ public class TourList {
         File directory = new File(_toursDirectory);
         toursDirectory = directory;
         for(File tourFile : directory.listFiles()){
-
+            Tour tour = new Tour(tourFile);
+            tourList.add(tour);
+            tourIDlist.add(tour.getIdNumber());
         }
     }
 
@@ -33,30 +35,135 @@ public class TourList {
      * @return tour with that ID number
      */
     public Tour getTour(int id){
-        if(tourIDlist.contains(id)){
-            File tourFile = new File(toursDirectory+"\\"+id+".txt");
-            Tour tour = new Tour(tourFile);
-            return tour;
+        for (Tour tour : tourList) {
+            if (tour.getIdNumber() == id) {
+                    return tour;
+            }
         }
-        else{
-            System.out.println("No such tour found");
-            return null;
-        }
+        System.out.println("No such tour found");
+        return null;
     }
 
     /**
-     * Generates a list of tours in a certain order determined by the index.
-     * 0 = id number (list all)
-     * 1 = name
-     * 2 = date
-     * 3 = location
-     * 4 = cost
-     * 5 = status (cancelled or not)
-     * @param index type of search
-     * @return list of tours
+     * Generates a list of tours that contain the keyword provided in the chosen field.
+     * The keyword is obtained after the function call and depends on what option is selected.
+     * 0 = keyword
+     * 1 = date
+     * 2 = status
+     * @param index
+     * @return
      */
-    public ArrayList list(int index){
-        return null;
+    public LinkedList<Tour> search(int index){
+        LinkedList<Tour> tourQueue = new LinkedList<>();
+        Scanner in = new Scanner(System.in);
+        if (index==0){
+            System.out.print("Please enter the keyword to search for: ");
+            String word = in.next();
+            for (Tour tour : tourList){
+                if (tour.getName().toLowerCase().equals(word.toLowerCase())){
+                    tourQueue.add(tour);
+                }
+                else if (tour.getName().toLowerCase().contains(word.toLowerCase())||tour.getDescription().toLowerCase().contains(word.toLowerCase())){
+                    tourQueue.add(tour);
+                }
+                else if (word.toLowerCase().contains(tour.getName().toLowerCase())){
+                    tourQueue.add(tour);
+                }
+            }
+        }
+        else if (index==1){
+            String date = "";
+            System.out.print("Enter year: ");
+            date+=in.next();
+            System.out.print("Enter month: ");
+            date+=in.next();
+            System.out.print("Enter day: ");
+            date+=in.next();
+
+            for (Tour tour : tourList){
+                if (tour.getDate().equals(date)){
+                    tourQueue.add(tour);
+                }
+            }
+        }
+        else if (index==2){
+            String statString = "";
+            System.out.print("Enter to display:" +
+                    "\n1 = scheduled tours" +
+                    "\n2 = cancelled tours");
+            statString += in.next();
+
+            if (statString.equals("1")){
+                for (Tour tour : tourList){
+                    if (!tour.isCancelled()){
+                        tourQueue.add(tour);
+                    }
+                }
+            }
+            else if (statString.equals("2")){
+                for (Tour tour : tourList){
+                    if (tour.isCancelled()){
+                        tourQueue.add(tour);
+                    }
+                }
+            }
+            else{
+                System.out.println("Not a valid input");
+            }
+        }
+        return tourQueue;
+    }
+
+    /**
+     * Generates a list of all tours in a certain order determined by the index.
+     * Use poll() method on return to get tours in correct order.
+     * 0 = id number
+     * 1 = date
+     * 2 = cost
+     * @param index type of search
+     * @return LinkedList (Queue) of tours
+     */
+    public LinkedList<Tour> listToursOrdered(int index){
+        LinkedList<Tour> tourQueue = new LinkedList<>();
+        if(index==0) {
+            Collections.sort(tourIDlist);
+            for (int i : tourIDlist){
+                for (Tour tour : tourList) {
+                    if (tour.getIdNumber() == i) {
+                        tourQueue.add(tour);
+                    }
+                }
+            }
+        }
+        else if(index==1){
+            ArrayList<Integer> dates = new ArrayList<>();
+            for(Tour tour : tourList){
+                dates.add(Integer.parseInt(tour.getDate()));
+            }
+            Collections.sort(dates);
+            for (int i : dates){
+                for (Tour tour : tourList) {
+                    if (Integer.parseInt(tour.getDate()) == i) {
+                        tourQueue.add(tour);
+                    }
+                }
+            }
+        }
+        else if(index==2){
+            ArrayList<Double> costs = new ArrayList<>();
+            for(Tour tour : tourList){
+                costs.add(tour.getCost());
+            }
+            Collections.sort(costs);
+            for (double i : costs){
+                for (Tour tour : tourList) {
+                    if (tour.getCost() == i) {
+                        tourQueue.add(tour);
+                    }
+                }
+            }
+        }
+        return tourQueue;
     }
 
     /**
@@ -79,14 +186,17 @@ public class TourList {
     }
 
     /**
-     * Adds a tour to the tour directory as a file.
-     * @param tour tour to add to list
+     * Adds a tour as a new tour formatted file to the folder of the tour directory.
+     * Uses largest id number + 1 as new id number.
+     * This function must be called to give a tour an id number.
+     * @param tour tour to add to directory
      */
-    public void add(Tour tour){
+    public void addAndWrite(Tour tour){
         int id = tourIDlist.get(tourIDlist.size()-1)+1;
         tourIDlist.add(id);
         File tourFile = new File(directoryString+"\\"+id+".txt");
         tour.setIdNumber(id);
+        tourList.add(tour);
         try{
             PrintWriter writer = new PrintWriter(tourFile);
             writer.println(tour.getIdNumber());
@@ -104,26 +214,25 @@ public class TourList {
         }
     }
 
-    /*
-    public void writeIDs(){
-        try{
-            PrintWriter writer = new PrintWriter(toursIDFile);
-            ArrayList<Integer> ids = new ArrayList<>();
-            for (File i : toursDirectory.listFiles()){
-                Scanner fileIn = new Scanner(i);
-                int id = Integer.parseInt(fileIn.nextLine().trim());
-                ids.add(id);
-            }
-            Collections.sort(ids);
-            for (int i : ids){
-                writer.println(i);
-            }
-            writer.close();
-        }catch(FileNotFoundException e){
-            System.out.println(e.getMessage());
-        }
+    /**
+     * Adds a tour object to this tourList.
+     * @param tour
+     */
+    public void add(Tour tour){
+        tourList.add(tour);
     }
-    */
+
+    /**
+     * Removes a tour object from this tourList.
+     * @param tour
+     */
+    public void remove(Tour tour){
+        tourList.remove(tour);
+    }
+
+    public ArrayList getTourObjectList(){
+        return tourList;
+    }
 
     //test
     public static void main(String[] args){
@@ -132,11 +241,12 @@ public class TourList {
         System.out.println(tourlist.directoryString);
         System.out.println("Please enter tour info");
         Tour newTour = new Tour("Hiking in Siberia",2000.00,"The Hiking in Siberia tour is for only the most experienced backpackers and outdoorsmen. Come venture through settings rarely seen by the human eye as you are enveloped by the Siberian tundra.","Yakutsk, Russia","itinerary","20190815");
-        tourlist.writeIDs();
         System.out.printf(newTour.toString());
         System.out.println(newTour.getDate());
         System.out.println(tourlist.toString());
-        //tourlist.add(newTour);
+        System.out.println(tourlist.listToursOrdered(2));
+        System.out.println(tourlist.search(2));
+        //tourlist.write(newTour);
         //System.out.printf(tourlist.getTour(tourlist.tourIDlist.get(tourlist.tourIDlist.size()-1)).toString());
     }
 }

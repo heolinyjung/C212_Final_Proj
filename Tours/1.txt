@@ -2,7 +2,7 @@
 Galapagos
 2000.00
 Something describing this tour
-Gala
+Galapagos, Ecuador
 something else
-10/21/2019
+20191021
 false

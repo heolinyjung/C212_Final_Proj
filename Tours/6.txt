@@ -4,5 +4,5 @@ Yellowstone
 Something describing this tour
 Yellowstone, Wyoming
 something else
-7/18/2019
+20190715
 false
