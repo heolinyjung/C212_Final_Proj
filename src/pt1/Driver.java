@@ -9,7 +9,7 @@ public class Driver
 	
 	public static final String PATH = "";
 	private static AccountList accounts = new AccountList();
-	private static TourList tours = new TourList();
+	private static TourList tours = new TourList(PATH);
 	
 	/*
 	 * The startup menu the first thing that the user will see when the program starts
@@ -104,7 +104,7 @@ public class Driver
 						+ "\nCredit Card Info: " + user.getPayment());
 						break;
 				case 3: reservedTours(user); break;
-				case 4:if(user.isAdmin()) {accountList();}; break;
+				case 4:if(user.isAdmin()) {System.out.println(accounts);}; break;
 				default: System.out.println("Invalid Input"); break;
 			}
 		}

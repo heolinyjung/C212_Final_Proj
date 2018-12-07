@@ -7,7 +7,7 @@ import java.util.*;
 
 public class TourList {
 
-    private final String directoryString;
+    private final String DIR;
     private File toursDirectory;
     private ArrayList<Tour> tourList = new ArrayList<>();
     private ArrayList<Integer> tourIDlist = new ArrayList<>();
@@ -20,7 +20,7 @@ public class TourList {
      * @param _toursDirectory Directory path for tours folder
      */
     public TourList(String _toursDirectory) {
-        directoryString = _toursDirectory;
+        DIR = _toursDirectory;
         File directory = new File(_toursDirectory);
         toursDirectory = directory;
         for (File tourFile : directory.listFiles()) {
@@ -238,7 +238,7 @@ public class TourList {
 
     public void write(Tour tour) {
         int id = tour.getIdNumber();
-        File tourFile = new File(directoryString + "\\" + id + ".txt");
+        File tourFile = new File(DIR + "\\" + id + ".txt");
         try {
             PrintWriter writer = new PrintWriter(tourFile);
             writer.println(tour.getIdNumber());
