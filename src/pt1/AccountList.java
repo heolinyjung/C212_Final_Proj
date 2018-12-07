@@ -5,16 +5,17 @@ import java.util.*;
 
 public class AccountList 
 {
-	private final String ACCOUNTDIR = "c:\\School Stuff\\CS Intro to Software Systems\\Eclipse\\Java Projects\\FinalProject\\accountsDir\\";
+	private final String DIR = Driver.PATH;
 	private ArrayList<String> names;	//list of usernames and passwords
 	private File signin; 	//Format: ID, Username, Password
 							//each new line holds information for one persons account
-	private File accounts = new File(ACCOUNTDIR);		//A variable that has access to all of the files in the accounts directory
+	private File accounts;	//A variable that has access to all of the files in the accounts directory
 	private String[] list;	//A list of all the File names in the accounts directory
 	private int num;	//Number of accounts in Dir
 	
 	public AccountList() throws FileNotFoundException
 	{
+		accounts = new File(DIR + "\\accountsdir");
 		signin = new File("accounts.txt");
 		list = accounts.list();
 		num = list.length;
@@ -47,6 +48,8 @@ public class AccountList
 			}
 		}
 		
+		if(id == -1)
+			System.out.println("Your username or password was incorrect");
 		return id;
 	}
 
@@ -72,6 +75,7 @@ public class AccountList
 		{
 			if(password.equals(names.get(x*3+2)) && username.equals(names.get(x*3+1)))
 			{
+				System.out.println("That name is already taken");
 				return -1;
 			}
 		}
@@ -83,9 +87,12 @@ public class AccountList
 	 * prints out all of the usernames and id numbers in the system
 	 * This is for Admin access only
 	 */
-	public String[] list()
+	public void list()
 	{
-		return list;
+		for(int x = 0; x < list.length; x++)
+		{
+			System.out.println(list[x]);
+		}
 	}
 	
 	/*
