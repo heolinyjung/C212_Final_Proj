@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Account 
 {
-	private final String ACCOUNTDIR = "c:\\School Stuff\\CS Intro to Software Systems\\Eclipse\\Java Projects\\FinalProject\\accountsDir\\";
+	private final String DIR = Driver.PATH;
 	
 	private File accountInfo; //The file where all the info can be found
 	private String username; //The unique username for the account
@@ -22,7 +22,7 @@ public class Account
 	 */
 	public Account(String username, String number) throws FileNotFoundException
 	{
-		accountInfo = new File(ACCOUNTDIR + number + username);
+		accountInfo = new File(DIR + number + username);
 		Scanner in = new Scanner(accountInfo);
 		id = in.next();
 		this.username = in.next();
@@ -45,7 +45,7 @@ public class Account
 	public Account(String username, String password, String number)
 	{
 		Scanner in = new Scanner(System.in);
-		accountInfo = new File(ACCOUNTDIR + number + username);
+		accountInfo = new File(DIR + number + username);
 		id = number;
 		this.username = username;
 		this.password = password;
