@@ -1,11 +1,12 @@
 package pt1;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cart 
 {
 	private final String DIR = Driver.PATH;
-	private TourList cart; //List of tours used to store the tours in the cart
+	private ArrayList<Integer> cart; //List of tours used to store the tours in the cart
 	private Account user; //The current account that the tours in the cart will be added to
 	private double total;
 	
@@ -25,9 +26,11 @@ public class Cart
 		System.out.println("Your total is " + total);
 		System.out.println("Form of Payment: " + user.getPayment());
 		
-		for(int x = 0; x < cart.getList().size(); x++)
+		for(int x = 0; x < cart.size(); x++)
 		{
-			user.addTour(cart.getList().get(x));
+			int id = cart.get(x);
+
+			user.addTour(id);
 		}
 		
 		Scanner k = new Scanner(System.in);
@@ -46,8 +49,8 @@ public class Cart
 	{
 		for(int x = 0; x < cart.size(); x++)
 		{
-			System.out.println(cart.getList().get(x).getName() + "\t\t" + "$" + cart.getList().get(x).getPrice());
-			total = total + cart.getList().get(x).getPrice();
+			System.out.println(TourList.getTour(cart.get(x)).getName() + "\t\t" + "$" + TourList.getTour(cart.get(x)).getCost());
+			total = total + TourList.getTour(cart.get(x)).getCost();
 		}
 	}
 

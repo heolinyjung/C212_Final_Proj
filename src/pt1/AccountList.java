@@ -3,7 +3,7 @@ package pt1;
 import java.io.*;
 import java.util.*;
 
-public class AccountList 
+public class AccountList
 {
 	private final String DIR = Driver.PATH;
 	private ArrayList<String> names;	//list of usernames and passwords
@@ -13,20 +13,24 @@ public class AccountList
 	private String[] list;	//A list of all the File names in the accounts directory
 	private int num;	//Number of accounts in Dir
 	
-	public AccountList() throws FileNotFoundException
+	public AccountList()
 	{
-		accounts = new File(DIR + "\\accountsdir");
-		signin = new File("accounts.txt");
-		list = accounts.list();
-		num = list.length;
-		names = new ArrayList<String>();
-				
-		Scanner in = new Scanner(signin);
-		while(in.hasNextLine())
-		{
-			names.add(in.next());
+		try{
+			accounts = new File(DIR + "\\accountsdir");
+			signin = new File("accounts.txt");
+			list = accounts.list();
+			num = list.length;
+			names = new ArrayList<String>();
+
+			Scanner in = new Scanner(signin);
+			while(in.hasNextLine())
+			{
+				names.add(in.next());
+			}
+			in.close();
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
 		}
-		in.close();
 	}
 	
 	/*

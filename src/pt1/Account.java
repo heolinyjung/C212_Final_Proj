@@ -12,8 +12,8 @@ public class Account
 	private String password; //The password for the specified account, is not unique
 	private String id; //The unique id number for the account, mainly for Admin purposes
 	private String payment; //The card number for the account to pay for tours
-	private TourList reserved; //The list of tour the account has already payed for
-	private TourList cart; //The list of tours that the account has yet to pay for, the cart will reset when the program exits
+	private ArrayList<Integer> reserved; //The list of tour ID's the account has already payed for
+	private ArrayList<Integer> cart; //The list of tours that the account has yet to pay for, the cart will reset when the program exits
 	private boolean admin; //A T or F value to determine if the given account is an admin or not
 	private String fullName; //The users real name format: first last
 	
@@ -30,19 +30,18 @@ public class Account
 		admin = in.nextBoolean();
 		payment = in.next();
 		fullName = in.next() + in.next();
-		/*
+		reserved = new ArrayList<>();
 		while(in.hasNext())
 		{
-			reserved.add(in);
+			reserved.add(in.nextInt());
 		}
-		cart = new TourList();
-		*/
+		cart = new ArrayList<>();
 	}
 	
 	/*
 	 * Constructor used to when a new account is created
 	 */
-	public Account(String username, String password, String number)
+	public Account(String username, String password, String number) throws IOException
 	{
 		Scanner in = new Scanner(System.in);
 		accountInfo = new File(DIR + number + username);
@@ -54,15 +53,15 @@ public class Account
 		payment = in.next();
 		System.out.println("Please enter your full name (First Last): ");
 		fullName = in.next() + in.next();
-		//reserved = new TourList();
-		//cart = new TourList();
+		reserved = new ArrayList<>();
+		cart = new ArrayList<>();
 		log();
 	}
 	
 	/*
 	 * used to create the file and put the current available account info
 	 */
-	public void log()
+	public void log() throws IOException
 	{
 		FileWriter write = new FileWriter(accountInfo, false);
 		
@@ -75,15 +74,15 @@ public class Account
 	 * this mehtod will be called when the program terminates
 	 * all updated data will thus be saved on to the appropriate file
 	 */
-	public void exit()
+	public void exit() throws IOException
 	{
 		FileWriter write = new FileWriter(accountInfo, false);
 		
 		write.write(id + " " + username + " " + password + " " + admin + " " + payment + " " + fullName + "\n");
 		
-		for(int x = 0; x < reserved.getList().size(); x++)
+		for(int x = 0; x < reserved.size(); x++)
 		{
-			write.write(reserved.getList().get(x) + " ");
+			write.write(reserved.get(x) + " ");
 		}
 		
 		write.close();
@@ -94,7 +93,13 @@ public class Account
 	 */
 	public void addTour(Tour tour)
 	{
-		reserved.add(tour);
+		reserved.add(tour.getIdNumber());
+	}
+
+	public void addTour(int id) {reserved.add(id);}
+
+	public void removeFromReserved(Tour tour){
+		reserved.remove(tour.getIdNumber());
 	}
 	
 	/*
@@ -102,7 +107,11 @@ public class Account
 	 */
 	public void addToCart(Tour tour)
 	{
-		cart.add(tour);
+		cart.add(tour.getIdNumber());
+	}
+
+	public void removeFromCart(Tour tour){
+		cart.remove(tour.getIdNumber());
 	}
 
 	/*
@@ -135,11 +144,11 @@ public class Account
 		return payment;
 	}
 
-	public TourList getReserved() {
+	public ArrayList<Integer> getReserved() {
 		return reserved;
 	}
 	
-	public TourList getCart() {
+	public ArrayList<Integer> getCart() {
 		return cart;
 	}
 ///////////////////////////////////////////////////////////////////

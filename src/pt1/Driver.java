@@ -1,20 +1,21 @@
 package pt1;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-public class Driver 
+public class Driver
 {
 	
 	public static final String PATH = "";
 	private static AccountList accounts = new AccountList();
-	private static TourList tours = new TourList(PATH);
+	private static TourList tours = new TourList();
 	
 	/*
 	 * The startup menu the first thing that the user will see when the program starts
 	 */
-	public Account startup(AccountList accounts) throws FileNotFoundException
+	public Account startup(AccountList accounts) throws IOException
 	{
 		int input = 0;
 		String username = "";
@@ -69,7 +70,7 @@ public class Driver
 	 * The menu that will appear after the user has successfully logged in
 	 * or has created a new account
 	 */
-	public void accountMenu(Account user)
+	public void accountMenu(Account user) throws IOException
 	{
 		int input = 0;
 		Scanner in = new Scanner(System.in);
@@ -114,34 +115,80 @@ public class Driver
 	 * This menu will allow the user to add/remove tours from their list
 	 * or just view them
 	 */
-	public void reservedTours(Account user)
+	public void reservedTours(Account user) throws IOException
 	{
 		int input = 0;
 		Scanner in = new Scanner(System.in);
 		System.out.println("Current Reserved Tours");
-		System.out.println(user.getReserved());
+		for (int i = 0; i < user.getReserved().size(); i++) {
+			if (tours.getTourIDlist().contains(user.getReserved().get(i))){
+				System.out.println(user.getReserved().get(i)+tours.getTour(user.getReserved().get(i)).getName());
+			}
+			else{
+				user.removeFromReserved(tours.getTour(user.getReserved().get(i)));
+			}
+		}
 		
 		while(input != 1)
 		{
 			System.out.println("What would you like to do?"
 					+ "\n1. Go Back"
 					+ "\n2. Select Tour"
-					+ "\n3. List all Tours");
+					+ "\n3. List all Tours"
+					+ "\n4. Search Tours");
 			if(user.isAdmin())
-					System.out.println("4. Add Tour");
+					System.out.println("5. Add Tour");
 			input = in.nextInt();
 		
 			switch(input)
 			{
 				case 1: accountMenu(user); break;
 				case 2: selectTour(user); break;
-				case 3: tours.list(); break;
-				case 4: if(user.isAdmin()) {tours.addTour();} break;
+				case 3: for(Tour tour : tours.listToursOrdered(0)) {
+					System.out.println("\n"+tour.getIdNumber()+": "+tour.getName());
+					if(user.getReserved().contains(tour.getIdNumber())){
+						System.out.println("RESERVED");
+					}
+					if(tour.isCancelled()){
+						System.out.println("^^CANCELLED^^");
+					}
+				}break;
+				case 4: searchTours();
+				case 5: if(user.isAdmin()) {
+					Tour newTour = new Tour();
+					tours.add(newTour);
+					tours.findID(newTour);
+					editTour(newTour.getIdNumber());
+				} break;
 				default: System.out.println("Invalid Input"); break;
 			}
 		}
 	}
-	
+
+	public void searchTours(){
+		Scanner in = new Scanner(System.in);
+		int input;
+		System.out.println("How would you like to search?" +
+				"\n1. By keyword" +
+				"\n2. By date (earliest to latest)" +
+				"\n3. By a specific date" +
+				"\n4. By cost (lowest to highest)" +
+				"\n5. By status");
+
+		input = in.nextInt();
+		LinkedList<Tour> listTours = new LinkedList<>();
+		switch(input){
+			case 1 : listTours = tours.search(0);
+			case 2 : listTours = tours.listToursOrdered(1);
+			case 3 : listTours = tours.search(1);
+			case 4 : listTours = tours.listToursOrdered(2);
+			case 5 : listTours = tours.search(2);
+		}
+		for(Tour tour : listTours){
+			System.out.println(tour.toString()+"\n");
+		}
+	}
+
 	public void selectTour(Account user)
 	{
 		int input = 0;
@@ -149,24 +196,22 @@ public class Driver
 		Scanner in = new Scanner(System.in);
 		System.out.print("Enter the Tour ID: ");
 		id = in.nextInt();
-		Tour tour = tours.getTour(id)
+		Tour tour = tours.getTour(id);
 		System.out.println(tour);
 		
 		if(user.isAdmin())
 		{
 			System.out.println("What would you like to do?"
 					+ "\n1. Go Back"
-					+ "\n2. List Accounts"
-					+ "\n3. Edit Tour"
-					+ "\n4. Remove Tour");
+					+ "\n2. Edit Tour"
+					+ "\n3. Remove Tour");
 			input = in.nextInt();
 			
 			switch(input)
 			{
 				case 1: break;
-				case 2: System.out.println(tours.listAccounts()); break;
-				case 3: editTour(id); break;
-				case 4: tours.removeTour(id); break;
+				case 2: editTour(id); break;
+				case 3: tours.remove(id); break;
 				default: System.out.println("Invalid Input"); break;
 			}
 		}
@@ -222,7 +267,7 @@ public class Driver
 				case 3:
 					System.out.println("Enter the new Itenerary: ");
 					s = in.nextLine();
-					tours.getTour(id).setItenerary(s);
+					tours.getTour(id).setItinerary(s);
 					break;
 				case 4:
 					System.out.println("Enter the new Description: ");
@@ -235,7 +280,7 @@ public class Driver
 						System.out.println("Enter the new Price: ");
 					}
 					d = in.nextDouble();
-					tours.getTour(id).setPrice(d);
+					tours.getTour(id).setCost(d);
 					break;
 				case 6:
 					System.out.println("Enter the new Name: ");
@@ -252,7 +297,7 @@ public class Driver
 		}
 	}  
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws IOException
 	{
 			Driver menu = new Driver();
 			Account user = menu.startup(accounts);

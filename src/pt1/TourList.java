@@ -7,21 +7,18 @@ import java.util.*;
 
 public class TourList {
 
-    private final String DIR;
-    private File toursDirectory;
-    private ArrayList<Tour> tourList = new ArrayList<>();
-    private ArrayList<Integer> tourIDlist = new ArrayList<>();
+    private static String dirPath = Driver.PATH+"\\Tours";
+    private static File toursDirectory;
+    private static ArrayList<Tour> tourList = new ArrayList<>();
+    private static ArrayList<Integer> tourIDlist = new ArrayList<>();
 
     /**
      * Creates a new ArrayList tourIDList given a file of pt1.Tour ID's.
      * Reads ID's from file then adds each one to the ArrayList.
      * Instantiates a toursDirectory file and a toursIDFile file as instance variables
-     *
-     * @param _toursDirectory Directory path for tours folder
      */
-    public TourList(String _toursDirectory) {
-        DIR = _toursDirectory;
-        File directory = new File(_toursDirectory);
+    public TourList() {
+        File directory = new File(dirPath);
         toursDirectory = directory;
         for (File tourFile : directory.listFiles()) {
             Tour tour = new Tour(tourFile);
@@ -38,7 +35,7 @@ public class TourList {
      * @param id id number of tour
      * @return tour with that ID number
      */
-    public Tour getTour(int id) {
+    public static Tour getTour(int id) {
         for (Tour tour : tourList) {
             if (tour.getIdNumber() == id) {
                 return tour;
@@ -82,7 +79,11 @@ public class TourList {
         }
     }
 
-    public ArrayList getTourObjectList() {
+    public ArrayList<Integer> getTourIDlist() {
+        return tourIDlist;
+    }
+
+    public ArrayList<Tour> getTourObjectList() {
         return tourList;
     }
 
@@ -105,7 +106,9 @@ public class TourList {
             for (Tour tour : tourList) {
                 if (tour.getName().toLowerCase().equals(word.toLowerCase())) {
                     tourQueue.add(tour);
-                } else if (tour.getName().toLowerCase().contains(word.toLowerCase()) || tour.getDescription().toLowerCase().contains(word.toLowerCase())) {
+                } else if (tour.getName().toLowerCase().contains(word.toLowerCase())
+                        || tour.getDescription().toLowerCase().contains(word.toLowerCase())
+                        ||tour.getLocation().contains(word.toLowerCase())) {
                     tourQueue.add(tour);
                 } else if (word.toLowerCase().contains(tour.getName().toLowerCase())) {
                     tourQueue.add(tour);
@@ -224,6 +227,10 @@ public class TourList {
 
     ///////////////TourList File Methods//////////////////
 
+    private void setDIR(String dirPath){
+
+    }
+
     /**
      * Adds a tour as a new tour formatted file to the folder of the tour directory.
      * Uses largest id number + 1 as new id number.
@@ -238,7 +245,7 @@ public class TourList {
 
     public void write(Tour tour) {
         int id = tour.getIdNumber();
-        File tourFile = new File(DIR + "\\" + id + ".txt");
+        File tourFile = new File(dirPath + "\\" + id + ".txt");
         try {
             PrintWriter writer = new PrintWriter(tourFile);
             writer.println(tour.getIdNumber());

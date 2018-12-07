@@ -88,6 +88,8 @@ public class Tour {
         this.isCancelled = false;
     }
 
+    public Tour(){}
+
     //getters and setters. Only admins will be able to set these values.
     public String getName() {
         return name;
