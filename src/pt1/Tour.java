@@ -2,7 +2,6 @@ package pt1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Tour {
@@ -31,28 +30,37 @@ public class Tour {
     /**
      * Constructs a tour object by reading a formatted tour text file.
      * Format should follow format described above.
+     *
      * @param infoFile formatted text file
      */
     public Tour(File infoFile) {
         this.infoFile = infoFile;
-        try{
+        try {
             Scanner in = new Scanner(this.infoFile);
             int i = 0;
-            while(in.hasNextLine()){
-                switch(i){
-                    case 0 : idNumber = Integer.parseInt(in.nextLine().trim());
-                    case 1 : name = in.nextLine().trim();
-                    case 2 : cost = Double.parseDouble(in.nextLine().trim());
-                    case 3 : description = in.nextLine().trim();
-                    case 4 : location = in.nextLine().trim();
-                    case 5 : itinerary = in.nextLine().trim();
-                    case 6 : date = in.nextLine().trim();
-                    case 7 : isCancelled = Boolean.parseBoolean(in.nextLine().trim());
+            while (in.hasNextLine()) {
+                switch (i) {
+                    case 0:
+                        idNumber = Integer.parseInt(in.nextLine().trim());
+                    case 1:
+                        name = in.nextLine().trim();
+                    case 2:
+                        cost = Double.parseDouble(in.nextLine().trim());
+                    case 3:
+                        description = in.nextLine().trim();
+                    case 4:
+                        location = in.nextLine().trim();
+                    case 5:
+                        itinerary = in.nextLine().trim();
+                    case 6:
+                        date = in.nextLine().trim();
+                    case 7:
+                        isCancelled = Boolean.parseBoolean(in.nextLine().trim());
                 }
                 i++;
             }
             in.close();
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -61,14 +69,16 @@ public class Tour {
      * Constructs a tour object by taking in parameters for all instance variables besides infoFile, ID, and isCancelled.
      * infoFile and idNumber will be determined when it is added to the TourList object.
      * isCancelled defaults to false.
-     * @param _name name of tour
-     * @param _cost total cost of tour
+     * Date must be input in YYYYMMDD format
+     *
+     * @param _name        name of tour
+     * @param _cost        total cost of tour
      * @param _description description of tour
-     * @param _location location of tour
-     * @param _itinerary itinerary of tour
-     * @param _date date of tour
+     * @param _location    location of tour
+     * @param _itinerary   itinerary of tour
+     * @param _date        date of tour
      */
-    public Tour(String _name,double _cost,String _description,String _location,String _itinerary, String _date){
+    public Tour(String _name, double _cost, String _description, String _location, String _itinerary, String _date) {
         this.name = _name;
         this.cost = _cost;
         this.description = _description;
@@ -125,10 +135,11 @@ public class Tour {
 
     /**
      * Creates and returns a readable, formatted version of the date in form MM/DD/YYYY.
+     *
      * @return Formatted string date
      */
-    public String getFormattedDate(){
-        return date.substring(4,6)+"/"+date.substring(6)+"/"+date.substring(0,4);
+    public String getFormattedDate() {
+        return date.substring(4, 6) + "/" + date.substring(6) + "/" + date.substring(0, 4);
     }
 
     public void setDate(String date) {
@@ -161,39 +172,42 @@ public class Tour {
      * ITINERARY
      * COST
      * IDNUM
+     *
      * @return formatted tour string
      */
     @Override
-    public String toString(){
+    public String toString() {
         String out = "";
-        if(isCancelled){
-            out+="This tour has been cancelled.\n";
+        if (isCancelled) {
+            out += "This tour has been cancelled.\n";
         }
-        out+=name+"\n";
-        out+=location+"\n";
-        out+=description+"\n";
-        out+=getFormattedDate()+"\n";
-        out+=itinerary+"\n";
-        out+="$"+String.format("%.2f",cost)+"\n";
-        out+="Tour number "+idNumber+"\n";
+        out += name + "\n";
+        out += location + "\n";
+        out += description + "\n";
+        out += getFormattedDate() + "\n";
+        out += itinerary + "\n";
+        out += "$" + String.format("%.2f", cost) + "\n";
+        out += "Tour number " + idNumber + "\n";
         return out;
     }
 
     /**
      * Returns equals if ID number match.
      * Assumes no two tours have same IDs.
+     *
      * @param other tour object
      * @return is equal
      */
     @Override
-    public boolean equals(Object other){
-        if(other instanceof Tour){
-            Tour otherTour = (Tour)other;
-            if(idNumber==otherTour.getIdNumber()){
+    public boolean equals(Object other) {
+        if (other instanceof Tour) {
+            Tour otherTour = (Tour) other;
+            if (idNumber == otherTour.getIdNumber()) {
                 return true;
-            }else
-            return false;
-        }else
-        return false;
+            } else
+                return false;
+        }
+        else
+            return true;
     }
 }
