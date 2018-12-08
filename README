@@ -1,0 +1,33 @@
+README -
+
+First time startup
+  Go into the driver.java file and change the PATH variable to be the absolute path to the location of the accountdir and the tours folder
+  Also make sure that accounts.txt is in the same location
+  By default there is one File in the accountdir folder called 1JohnDeer.txt and in order for the program to run properly there must be at least one file in that folder.           Username: JohnDeer		Password: johndeerrocks
+  1JohnDeer.txt can be changed, but if it is changed you must make sure to adjust the accounts.txt file as well, to match the new file. 
+How to manually add a Tour
+  To create a new Tour file create a new .txt file in the Tours folder. Make the name of the file equal to the id number of the Tour or make it one number higher than the highest numbered file
+  When adding a manual File make sure that the id of the new Tour file does not match that of another
+  The format of the file should be as follows
+      ID
+      Name
+      Price
+      Description
+      Location
+      Itinerary
+      Date
+      (true or false) (determines if it has been canceled)
+How to manually add an Account
+  To create a new Account file create a new .txt file in the accountdir folder. Make sure the name of the file is a combination of the Accounts id number and its username. The id number can be found by adding one to the largest numbered file
+  When adding a new account you must also make sure to add the new account to the accounts.txt file. You’ll need to make a new line with the new Accounts id username and password separated by spaces and in that order.
+  The format of the main Account file is as follows
+      ID
+      Username
+      Password
+      (true or false)(This determines admin rank)
+      Credit Card information (16 digit code)
+      FirstName LastName (They must be separated by a space)
+Other useful info
+  In order to add a Tour to an Accounts Reserved Tour List the Account user must first add that account to the cart and then pay for the tour, only then will the tour be added to the reserved list
+  If you Sign Out of the Account before purchasing the Tours they will be lost and not saved. THE CART DOES NOT SAVE DATA! Only the Reserved List saves the Tours to the Account
+  If a Tour is added manually while the program is running the user will need to restart the program to gain access to that tour
