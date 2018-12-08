@@ -1,11 +1,21 @@
 package pt1;
 
+////////////////////////////////////////////////////////////
+//
+//	H212 Final Project
+//	Travel Agency: Account
+//
+//	Last updated: 12/7/18
+//  @author Adam Morrow, Heoliny Jung
+//
+////////////////////////////////////////////////////////////
+
 import java.io.*;
 import java.util.*;
 
 public class Account 
 {
-	private final String DIR = Driver.PATH;
+	private final String DIR = Driver.PATH+"\\accountsdir";
 	
 	private File accountInfo; //The file where all the info can be found
 	private String username; //The unique username for the account
@@ -13,7 +23,7 @@ public class Account
 	private String id; //The unique id number for the account, mainly for Admin purposes
 	private String payment; //The card number for the account to pay for tours
 	private ArrayList<Integer> reserved; //The list of tour ID's the account has already payed for
-	private ArrayList<Integer> cart; //The list of tours that the account has yet to pay for, the cart will reset when the program exits
+	private Cart cart; //The list of tours that the account has yet to pay for, the cart will reset when the program exits
 	private boolean admin; //A T or F value to determine if the given account is an admin or not
 	private String fullName; //The users real name format: first last
 	
@@ -22,20 +32,20 @@ public class Account
 	 */
 	public Account(String username, String number) throws FileNotFoundException
 	{
-		accountInfo = new File(DIR + number + username);
+		accountInfo = new File(DIR + "\\"+number + username+".txt");
 		Scanner in = new Scanner(accountInfo);
 		id = in.next();
 		this.username = in.next();
 		password = in.next();
 		admin = in.nextBoolean();
 		payment = in.next();
-		fullName = in.next() + in.next();
+		fullName = in.next() +" "+ in.next();
 		reserved = new ArrayList<>();
-		while(in.hasNext())
+		while(in.hasNextInt())
 		{
 			reserved.add(in.nextInt());
 		}
-		cart = new ArrayList<>();
+		cart = new Cart(this);
 	}
 	
 	/*
@@ -44,7 +54,7 @@ public class Account
 	public Account(String username, String password, String number) throws IOException
 	{
 		Scanner in = new Scanner(System.in);
-		accountInfo = new File(DIR + number + username);
+		accountInfo = new File(DIR + "\\"+number + username+".txt");
 		id = number;
 		this.username = username;
 		this.password = password;
@@ -52,9 +62,9 @@ public class Account
 		System.out.println("Enter in your payment information: ");
 		payment = in.next();
 		System.out.println("Please enter your full name (First Last): ");
-		fullName = in.next() + in.next();
+		fullName = in.next() +" "+ in.next();
 		reserved = new ArrayList<>();
-		cart = new ArrayList<>();
+		cart = new Cart(this);
 		log();
 	}
 	
@@ -107,7 +117,7 @@ public class Account
 	 */
 	public void addToCart(Tour tour)
 	{
-		cart.add(tour.getIdNumber());
+		cart.addToCart(tour.getIdNumber());
 	}
 
 	public void removeFromCart(Tour tour){
@@ -148,7 +158,7 @@ public class Account
 		return reserved;
 	}
 	
-	public ArrayList<Integer> getCart() {
+	public Cart getCart() {
 		return cart;
 	}
 ///////////////////////////////////////////////////////////////////

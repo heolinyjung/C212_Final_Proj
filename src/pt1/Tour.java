@@ -1,5 +1,15 @@
 package pt1;
 
+////////////////////////////////////////////////////////////
+//
+//	H212 Final Project
+//	Travel Agency: Tour
+//
+//	Last updated: 12/7/18
+//  @author Adam Morrow, Heoliny Jung
+//
+////////////////////////////////////////////////////////////
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

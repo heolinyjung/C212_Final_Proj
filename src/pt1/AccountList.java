@@ -1,11 +1,21 @@
 package pt1;
 
+////////////////////////////////////////////////////////////
+//
+//	H212 Final Project
+//	Travel Agency: AccountList
+//
+//	Last updated: 12/7/18
+//  @author Adam Morrow, Heoliny Jung
+//
+////////////////////////////////////////////////////////////
+
 import java.io.*;
 import java.util.*;
 
 public class AccountList
 {
-	private final String DIR = Driver.PATH;
+	private final String DIR = Driver.PATH + "\\accountsdir";
 	private ArrayList<String> names;	//list of usernames and passwords
 	private File signin; 	//Format: ID, Username, Password
 							//each new line holds information for one persons account
@@ -16,16 +26,21 @@ public class AccountList
 	public AccountList()
 	{
 		try{
-			accounts = new File(DIR + "\\accountsdir");
+			accounts = new File(DIR);
 			signin = new File("accounts.txt");
 			list = accounts.list();
 			num = list.length;
-			names = new ArrayList<String>();
+			names = new ArrayList<>();
 
 			Scanner in = new Scanner(signin);
 			while(in.hasNextLine())
 			{
-				names.add(in.next());
+				if(in.hasNext()){
+					names.add(in.next());
+				}
+				else{
+					break;
+				}
 			}
 			in.close();
 		}catch(FileNotFoundException e){
@@ -38,7 +53,7 @@ public class AccountList
 	 * if the username and password are not found it will return a -1
 	 * otherwise it will return the id number of that account
 	 */
-	public int login(String username, String password) throws FileNotFoundException
+	public int login(String username, String password)
 	{
 		int id = -1;
 		for(int x = 0; x < names.size()/3; x++)
@@ -46,7 +61,7 @@ public class AccountList
 			String currentID = names.get(x*3);
 			String name = names.get(x*3 + 1);
 			String pass = names.get(x*3 + 2);
-			if(name == username && pass == password)
+			if(name.equals(username) && pass.equals(password))
 			{
 				id = Integer.parseInt(currentID);
 			}
@@ -63,10 +78,11 @@ public class AccountList
 	 */
 	public Account create(String username,String password) throws IOException
 	{
-		String number = "" + num++;
+		num++;
+		String number = "" + num;
 		
-		FileWriter writer = new FileWriter(signin, true);
-		writer.write(number + " " + username + " " + password);
+		FileWriter writer = new FileWriter(signin,true);
+		writer.write(number + " " + username + " " + password+"\n");
 		writer.close();
 		
 		Account create = new Account(username, password, number);
@@ -77,10 +93,12 @@ public class AccountList
 	{
 		for(int x = 0; x < names.size(); x++)
 		{
-			if(password.equals(names.get(x*3+2)) && username.equals(names.get(x*3+1)))
-			{
-				System.out.println("That name is already taken");
-				return -1;
+			if(!((x*3+2)>names.size())){
+				if(password.equals(names.get(x*3+2)) && username.equals(names.get(x*3+1)))
+				{
+					System.out.println("That name is already taken");
+					return -1;
+				}
 			}
 		}
 		
@@ -114,5 +132,25 @@ public class AccountList
 		}
 		
 		return -1;
+	}
+
+	/*
+	public void deleteAccount(int n){
+		File file = new File(DIR+"\\"+n+names.get(n)+".txt");
+		if (file.delete()){
+			System.out.println("Account deleted successfully");
+		}
+		else{
+			System.out.println("Failed to delete, no such account found");
+		}
+	}
+	*/
+
+	public String toString(){
+		String out = "";
+		for(String filename : list){
+			out+=filename.substring(0,filename.length()-4)+"\n";
+		}
+		return out;
 	}
 }

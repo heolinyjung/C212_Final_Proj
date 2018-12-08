@@ -1,5 +1,15 @@
 package pt1;
 
+////////////////////////////////////////////////////////////
+//
+//	H212 Final Project
+//	Travel Agency: TourList
+//
+//	Last updated: 12/7/18
+//  @author Adam Morrow, Heoliny Jung
+//
+////////////////////////////////////////////////////////////
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -45,6 +55,15 @@ public class TourList {
         return null;
     }
 
+    public ArrayList<Integer> getTourIDList(){
+        return tourIDlist;
+    }
+
+
+    public static ArrayList<Tour> getTourObjectList() {
+        return tourList;
+    }
+
     /**
      * Adds a tour object to this tourList.
      *
@@ -79,14 +98,6 @@ public class TourList {
         }
     }
 
-    public ArrayList<Integer> getTourIDlist() {
-        return tourIDlist;
-    }
-
-    public ArrayList<Tour> getTourObjectList() {
-        return tourList;
-    }
-
     /**
      * Generates a list of tours that contain the keyword provided in the chosen field.
      * The keyword is obtained after the function call and depends on what option is selected.
@@ -108,7 +119,7 @@ public class TourList {
                     tourQueue.add(tour);
                 } else if (tour.getName().toLowerCase().contains(word.toLowerCase())
                         || tour.getDescription().toLowerCase().contains(word.toLowerCase())
-                        ||tour.getLocation().contains(word.toLowerCase())) {
+                        || tour.getLocation().toLowerCase().contains(word.toLowerCase())) {
                     tourQueue.add(tour);
                 } else if (word.toLowerCase().contains(tour.getName().toLowerCase())) {
                     tourQueue.add(tour);
