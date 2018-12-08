@@ -1,6 +1,6 @@
 6
 Yellowstone
-850.00
+850.0
 Something describing this tour
 Yellowstone, Wyoming
 something else

@@ -214,9 +214,14 @@ public class Driver
 			case 5 : listTours = tours.search(2);break;
 			default: System.out.println("Not a valid selection.");
 		}
-		for(Tour tour : listTours){
-			System.out.println(tour.toString()+"\n");
-		}
+		if (listTours.isEmpty()){
+		    System.out.println("No matches found");
+        }
+        else{
+            for(Tour tour : listTours){
+                System.out.println(tour.toString()+"\n");
+            }
+        }
 	}
 
 	public void selectTour(Account user)
@@ -228,58 +233,69 @@ public class Driver
 		id = in.nextInt();
 		Tour tour = tours.getTour(id);
 		System.out.println(tour);
-		
-		if(user.isAdmin())
-		{
-			System.out.println("What would you like to do?"
-					+ "\n1. Go Back"
-					+ "\n2. Edit Tour"
-					+ "\n3. Remove Tour");
-			input = in.nextInt();
-			
-			switch(input)
+
+		while (input!=1){
+			if(user.isAdmin())
 			{
-				case 1: break;
-				case 2: editTour(id); break;
-				case 3: tours.remove(id); break;
-				default: System.out.println("Invalid Input"); break;
+				System.out.println("What would you like to do?"
+						+ "\n1. Go Back"
+						+ "\n2. Edit Tour"
+						+ "\n3. Remove Tour");
+				input = in.nextInt();
+
+				switch(input)
+				{
+					case 1: break;
+					case 2: editTour(id); break;
+					case 3: tours.remove(id); break;
+					default: System.out.println("Invalid Input"); break;
+				}
+			}
+			else
+			{
+				System.out.println("What would you like to do?"
+						+ "\n1. Go Back"
+						+ "\n2. Remove Tour from reserved"
+						+ "\n3. Add Tour to cart");
+				input = in.nextInt();
+
+				switch(input)
+				{
+					case 1: break;
+					case 2: user.removeFromReserved(tour); break;
+					case 3: if(!tour.isCancelled()){
+						user.addToCart(tour);
+					}else{
+						System.out.println("Could not add to cart because tour is cancelled.");
+					}break;
+					default: System.out.println("Invalid Input"); break;
+				}
 			}
 		}
-		else
-		{
-			System.out.println("What would you like to do?"
-					+ "\n1. Go Back"
-					+ "\n2. Remove Tour from reserved"
-					+ "\n3. Add Tour to cart");
-			input = in.nextInt();
-			
-			switch(input)
-			{
-				case 1: break;
-				case 2: user.removeFromReserved(tour); break;
-				case 3: if(!tour.isCancelled()){
-					user.addToCart(tour);
-				}else{
-					System.out.println("Could not add to cart because tour is cancelled.");
-				}break;
-				default: System.out.println("Invalid Input"); break;
-			}
-		}
-	}
-
-
-	public void addTour(int id){
-
 	}
 	
 	public void editTour(int id)
 	{
+	    Tour tour;
+	    String date = "";
+        String itn = "";
+        String desc = "";
+        double d = 0.0;
+        String name = "";
+        String loc = "";
+        boolean stat = true;
 		int input = 0;
-		Double d = 0.0;
+		String s = "";
+		if(tours.getTourIDList().contains(id)){
+		    tour = TourList.getTour(id);
+        }
+        else{
+            tour = new Tour();
+        }
+
+		Scanner in = new Scanner(System.in);
 		while(input != 1)
 		{
-			String s = "";
-			Scanner in = new Scanner(System.in);
 			System.out.println("What would you like to do?"
 					+ "\n1. Go Back"
 					+ "\n2. Change Date"
@@ -287,7 +303,8 @@ public class Driver
 					+ "\n4. Change Description"
 					+ "\n5. Change Price"
 					+ "\n6. Change Name"
-					+ "\n7. Change Location");
+					+ "\n7. Change Location"
+                    + "\n8. Change Status");
 			input = in.nextInt();
 		
 			//Complete the switch statement
@@ -295,44 +312,64 @@ public class Driver
 			{
 				case 1: break;
 				case 2:
-					while(s.length() != 8)
-					{
-						System.out.println("Enter the new Date(YYYYMMDD): ");
-						s = in.next();
-					}
-					tours.getTour(id).setDate(s);
+				    System.out.println("Enter the new Date(YYYYMMDD): ");
+					date = in.next();
+					in.nextLine();
 					break;
 				case 3:
 					System.out.println("Enter the new Itenerary: ");
-					s = in.nextLine();
-					tours.getTour(id).setItinerary(s);
+					itn = in.nextLine();
+					in.nextLine();
 					break;
 				case 4:
 					System.out.println("Enter the new Description: ");
-					s = in.nextLine();
-					tours.getTour(id).setDescription(s);
+                    desc = in.nextLine();
+					in.nextLine();
 					break;
 				case 5:
-					while(d == 0.0 || !in.hasNextDouble())
+					while(d == 0.0)
 					{
 						System.out.println("Enter the new Price: ");
 						d = in.nextDouble();
+                        in.nextLine();
 					}
-					tours.getTour(id).setCost(d);
 					break;
 				case 6:
 					System.out.println("Enter the new Name: ");
-					s = in.nextLine();
-					tours.getTour(id).setName(s);
+                    name = in.nextLine();
+					in.nextLine();
 					break;
 				case 7:
 					System.out.println("Enter the new Location: ");
-					s = in.nextLine();
-					tours.getTour(id).setLocation(s);
+					loc = in.nextLine();
+					in.nextLine();
 					break;
+                case 8: System.out.println("What is the status of this tour? (cancelled = c, scheduled = s)");
+                    s = in.next();
+                    if (s.equals("c")){
+                        stat = true;
+                    }
+                    else if (s.equals("s")){
+                        stat = false;
+                    }
+                    else{
+                        System.out.println("Not a valid choice");
+                    }
+                    in.nextLine();break;
 				default: System.out.println("Invalid Input"); break;
 			}
 		}
+        tour.setCancelled(stat);
+        tour.setCost(d);
+        tour.setItinerary(itn);
+        tour.setDescription(desc);
+        tour.setDate(date);
+        tour.setLocation(loc);
+        tour.setName(name);
+        if (!(tours.getTourIDList().contains(id))){
+            tours.findID(tour);
+            tours.add(tour);
+        }
 	}  
 
 	public static void main(String[] args) throws IOException

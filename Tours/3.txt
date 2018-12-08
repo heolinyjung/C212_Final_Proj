@@ -1,6 +1,6 @@
 3
 Japan
-3500.00
+3500.0
 Something describing this tour
 Tokyo, Japan
 something else

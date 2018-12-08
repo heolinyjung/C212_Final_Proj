@@ -1,6 +1,6 @@
 8
 Florence
-3700.00
+3700.0
 Something describing this tour
 Florence, Italy
 something else

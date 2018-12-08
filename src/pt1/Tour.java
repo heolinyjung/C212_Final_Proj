@@ -196,7 +196,7 @@ public class Tour {
         out += name + "\n";
         out += location + "\n";
         out += description + "\n";
-        out += getFormattedDate() + "\n";
+        out += this.getFormattedDate() + "\n";
         out += itinerary + "\n";
         out += "$" + String.format("%.2f", cost) + "\n";
         out += "Tour number " + idNumber + "\n";

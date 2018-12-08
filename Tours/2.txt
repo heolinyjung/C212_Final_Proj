@@ -1,6 +1,6 @@
 2
 Milan
-2500.00
+2500.0
 Something describing this tour
 Milan, Italy
 something else

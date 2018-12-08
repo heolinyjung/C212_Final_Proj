@@ -1,8 +1,8 @@
 1
-Galapagos
-2000.00
-Something describing this tour
-Galapagos, Ecuador
-something else
-20191021
+name
+24000.0
+description
+location
+itinerary
+20190405
 false

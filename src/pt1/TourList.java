@@ -249,7 +249,8 @@ public class TourList {
      *
      * @param tour tour to add to directory
      */
-    public void findID(Tour tour) {
+    public static void findID(Tour tour) {
+        Collections.sort(tourIDlist);
         int id = tourIDlist.get(tourIDlist.size() - 1) + 1;
         tour.setIdNumber(id);
     }

@@ -1,6 +1,6 @@
 7
 Glacier
-1300.00
+1300.0
 Something describing this tour
 Glacier, Alaska
 something else
